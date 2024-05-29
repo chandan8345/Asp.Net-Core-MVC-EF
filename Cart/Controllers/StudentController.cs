@@ -1,6 +1,7 @@
 ﻿using Cart.Models;
 using Cart.Service;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,10 @@ namespace Cart.Controllers
                     Students.Add(s);
                 }
             }
+            if (TempData["student"] != null) 
+            {
+                ViewData["student"] = TempData["student"];
+            }
             return View(Students);
         }
 
@@ -34,6 +39,22 @@ namespace Cart.Controllers
         {
             studentService.createStudent(st);
             ViewBag.Message = "Data Insert Successfully";
+            return RedirectToAction("Index", "Student");
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int Id)
+        {
+            studentService.deleteStudent(Id);
+            return RedirectToAction("Index", "Student");
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Student s)
+        {
+            var student = studentService.editStudent(s);
+            var serializedStudent = JsonConvert.SerializeObject(student);
+            TempData["student"] = serializedStudent;
             return RedirectToAction("Index", "Student");
         }
     }

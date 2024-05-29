@@ -1,36 +1,75 @@
 ﻿@model List<Student>
 
+
 @{
+    
     ViewData["Title"] = "Student";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{
+    var s = ViewData["student"] as Student;
+}
+
+
+
 <h1>Student</h1>
+
+@if (s != null)
+{
+    <div>
+        <h1>Hello : @s.name</h1>
+    </div>
+
+}
 
 <div class="container">
     <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="@Model.FirstOrDefault().Id" value="" />
         <div class="form-group">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" />
+            <label>Name</label>
+            <input asp-for="@Model.FirstOrDefault().name" value="" class="form-control" />
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
-
+<br />
 <div class="container">
-    <table>
-        @if (Model != null)
-        {
-            <thead>
-            <th>Name</th>
-            </thead>
-            @foreach (var student in Model)
-            {
-                <tr>
-                    <td>@student.name</td>
-                </tr>
-            }
-        }
-    </table>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-responsive table-hover">
+                @if (Model != null)
+                {
+                    <thead>
+                    <th>Name</th>
+                    <th>Action</th>
+                    </thead>
+                    @foreach (var student in Model)
+                    {
+                        <tr>
+                            <td>@student.name</td>
+                            <td>
+                                <div class="row">
+                                    <form asp-action="Edit" method="post">
+                                        <input type="hidden" name="id" value="@student.Id" />
+                                        <button type="submit" class="btn btn-primary">Edit</button>
+                                    </form>
+
+                                    <form asp-action="Delete" method="post">
+                                        <input type="hidden" name="id" value="@student.Id" />
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+
+    </div>
+
 </div>
 
