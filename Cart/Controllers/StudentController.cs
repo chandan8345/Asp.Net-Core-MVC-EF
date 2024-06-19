@@ -72,5 +72,10 @@ namespace Cart.Controllers
             ViewBag.Message = "Data Update Successfully";
             return RedirectToAction("Index", "Student");
         }
+
+        public IActionResult Refresh() {
+            TempData.Remove("student");
+            return RedirectToAction("Index", "Student");
+        }
     }
 }

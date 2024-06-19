@@ -24,6 +24,7 @@
                 <input asp-for="@Model.FirstOrDefault().name" value="@sObject.name" class="form-control" />
             </div>
             <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit" class="btn btn-danger" asp-action="Refresh" method="get">Cancel</button>
         </form>
     </div>
 
@@ -46,9 +47,10 @@ else
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-responsive table-hover">
-                @if (Model != null)
-                {
+            @if (Model.Count != 0)
+            {
+                <table class="table table-responsive table-hover">
+
                     <thead>
                     <th>Name</th>
                     <th>Action</th>
@@ -73,9 +75,10 @@ else
                             </td>
                         </tr>
                     }
-                }
-            </table>
-        </div>
+                    
+                </table>
+            }
+            </div>
 
     </div>
 
