@@ -27,9 +27,9 @@ namespace Cart.Controllers
                     Students.Add(s);
                 }
             }
-            if (TempData["student"] != null) 
+            if (TempData["student"] != null)
             {
-                ViewData["student"] = TempData["student"];
+                TempData.Keep("student");
             }
             return View(Students);
         }

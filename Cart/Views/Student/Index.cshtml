@@ -1,27 +1,16 @@
-﻿@model List<Student>
-
+﻿@model List<Student> 
 
 @{
-    
+    var s = TempData["student"];
+    dynamic sObject = Newtonsoft.Json.JsonConvert.DeserializeObject(s.ToString());
     ViewData["Title"] = "Student";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{
-    var s = ViewData["student"] as Student;
-}
 
+<p>@sObject.name</p>
 
-
-<h1>Student</h1>
-
-@if (s != null)
-{
-    <div>
-        <h1>Hello : @s.name</h1>
-    </div>
-
-}
+<h1>Employee</h1>
 
 <div class="container">
     <form asp-action="Create" method="post">
@@ -56,7 +45,7 @@
                                         <button type="submit" class="btn btn-primary">Edit</button>
                                     </form>
 
-                                    <form asp-action="Delete" method="post">
+                                    <form asp-action="Delete" method="post" class="ml-1">
                                         <input type="hidden" name="id" value="@student.Id" />
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
