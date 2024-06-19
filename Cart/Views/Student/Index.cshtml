@@ -1,28 +1,47 @@
-﻿@model List<Student> 
+﻿@model List<Student>
 
 @{
+    dynamic sObject = null;
     var s = TempData["student"];
-    dynamic sObject = Newtonsoft.Json.JsonConvert.DeserializeObject(s.ToString());
+    if (s != null)
+    {
+        sObject = Newtonsoft.Json.JsonConvert.DeserializeObject(s.ToString());
+    }
     ViewData["Title"] = "Student";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<p>@sObject.name</p>
-
 <h1>Employee</h1>
 
-<div class="container">
-    <form asp-action="Create" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="@Model.FirstOrDefault().Id" value="" />
-        <div class="form-group">
-            <label>Name</label>
-            <input asp-for="@Model.FirstOrDefault().name" value="" class="form-control" />
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
-</div>
+@if (sObject != null)
+{
+    <div class="container">
+        <form asp-action="Update" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.FirstOrDefault().Id" value="@sObject.Id" />
+            <div class="form-group">
+                <label>Name</label>
+                <input asp-for="@Model.FirstOrDefault().name" value="@sObject.name" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </form>
+    </div>
+
+}
+else
+{
+    <div class="container">
+        <form asp-action="Create" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="@Model.FirstOrDefault().Id" value="" />
+            <div class="form-group">
+                <label>Name</label>
+                <input asp-for="@Model.FirstOrDefault().name" value="" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Add New</button>
+        </form>
+    </div>
+}
 <br />
 <div class="container">
     <div class="row">

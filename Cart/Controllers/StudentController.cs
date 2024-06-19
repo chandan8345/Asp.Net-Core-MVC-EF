@@ -31,12 +31,17 @@ namespace Cart.Controllers
             {
                 TempData.Keep("student");
             }
+            else
+            {
+                TempData.Remove("student");
+            }
             return View(Students);
         }
 
         [HttpPost]
         public IActionResult Create(Student st) 
         {
+            TempData.Remove("student");
             studentService.createStudent(st);
             ViewBag.Message = "Data Insert Successfully";
             return RedirectToAction("Index", "Student");
@@ -45,6 +50,7 @@ namespace Cart.Controllers
         [HttpPost]
         public IActionResult Delete(int Id)
         {
+            TempData.Remove("student");
             studentService.deleteStudent(Id);
             return RedirectToAction("Index", "Student");
         }
@@ -55,6 +61,15 @@ namespace Cart.Controllers
             var student = studentService.editStudent(s);
             var serializedStudent = JsonConvert.SerializeObject(student);
             TempData["student"] = serializedStudent;
+            return RedirectToAction("Index", "Student");
+        }
+
+        [HttpPost]
+        public IActionResult Update(Student s)
+        {
+            TempData.Remove("student");
+            studentService.updateStudent(s);
+            ViewBag.Message = "Data Update Successfully";
             return RedirectToAction("Index", "Student");
         }
     }

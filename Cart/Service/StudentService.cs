@@ -24,6 +24,12 @@ namespace Cart.Service
             context.SaveChanges();
         }
 
+        public void updateStudent(Student s)
+        {
+            context.Students.Update(s);
+            context.SaveChanges();
+        }
+
         public void deleteStudent(int id) {
             var student = context.Students.Find(id);
             context.Students.Remove(student);
